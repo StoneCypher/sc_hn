@@ -36,4 +36,10 @@ fake_stories(Count) ->
 
 fake_story() ->
 
-    don_martin:words().
+    { sc:rand_between(-20,20) + sc:rand(20) + sc:rand(50),
+      sc:unixtime() - sc:rand(400000), % about 5 days
+      don_martin:words(),
+      don_martin:word(),
+      don_martin:word() ++ don_martin:word() ++ sc:random_from([ ".com", ".net", ".org" ]),
+      sc:rand(50) + sc:rand(50) + sc:rand(50) + sc:rand(50)
+    }.
