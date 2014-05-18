@@ -28,4 +28,12 @@ fake_stories() ->
 
 fake_stories(Count) ->
 
-    todo.
+    [ fake_story() || _I <- lists:seq(1,Count) ].
+
+
+
+
+
+fake_story() ->
+
+    don_martin:words().
