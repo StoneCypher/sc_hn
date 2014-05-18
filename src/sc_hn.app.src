@@ -1,7 +1,7 @@
 %% -*- mode: erlang -*-
-{application, example_project,
+{application, sc_hn,
  [
-  {description, "Example Concrete generator project"},
+  {description, "StoneCypher's implementation of a Hacker News style site in Erlang"},
   {vsn, "0.0.1"},
   {registered, []},
   {applications, [
