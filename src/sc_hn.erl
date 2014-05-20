@@ -18,6 +18,37 @@
 
 
 
+-type story() :: {
+
+    story,
+    Points::integer(),
+    Timestamp::non_neg_integer(),
+    Title::binary(),
+    Poster::binary(),
+    Site::binary(),
+    CommentCount::binary()
+
+}.
+
+
+
+
+
+-record(story, {
+
+    points        :: integer(),
+    timestamp     :: non_neg_integer(),
+    title         :: binary(),
+    poster        :: binary(),
+    site          :: binary(),
+    comment_count :: binary()
+
+} ).
+
+
+
+
+
 fake_stories() ->
 
     fake_stories(100).
@@ -34,12 +65,15 @@ fake_stories(Count) ->
 
 
 
+-spec fake_story() -> story().
+
 fake_story() ->
 
-    { sc:rand_between(-20,20) + sc:rand(20) + sc:rand(50),
-      sc:unixtime() - sc:rand(400000), % about 5 days
-      don_martin:words(),
-      don_martin:word(),
-      don_martin:word() ++ don_martin:word() ++ sc:random_from([ ".com", ".net", ".org" ]),
-      sc:rand(50) + sc:rand(50) + sc:rand(50) + sc:rand(50)
+    #story {
+        sc:rand_between(-20,20) + sc:rand(20) + sc:rand(50),
+        sc:unixtime() - sc:rand(400000), % about 5 days
+        list_to_binary(don_martin:words()),
+        list_to_binary(don_martin:word()),
+        list_to_binary(don_martin:word() ++ don_martin:word() ++ sc:random_from([ ".com", ".net", ".org" ])),
+        sc:rand(50) + sc:rand(50) + sc:rand(50) + sc:rand(50)
     }.
