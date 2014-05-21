@@ -52,6 +52,8 @@
 
 
 
+%% @doc Generates a 100 nonsense stories.
+
 fake_stories() ->
 
     fake_stories(100).
@@ -60,6 +62,8 @@ fake_stories() ->
 
 
 
+%% @doc Generates a requested count of nonsense stories.
+
 fake_stories(Count) ->
 
     [ fake_story() || _I <- lists:seq(1,Count) ].
@@ -67,6 +71,8 @@ fake_stories(Count) ->
 
 
 
+
+%% @doc Generates a nonsense story for testing purposes.
 
 -spec fake_story() -> story().
 
