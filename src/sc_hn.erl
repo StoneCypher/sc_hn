@@ -7,6 +7,7 @@
 
 -export([
 
+    hn_score/3,
     general_hn_score/7,
 
     fake_stories/0,
@@ -91,3 +92,29 @@ fake_story() ->
 general_hn_score(Votes, Age, Penalty, VoteOffset, AgeOffset, VoteDecay, Gravity) ->
 
     (math:pow(Votes + VoteOffset, VoteDecay) / math:pow(Age + AgeOffset, Gravity)) * Penalty.
+
+
+
+
+
+%% @doc Calculates one Hacker News ranking entry, for ordering by age and score.  Follows
+%% the algorithm claimed in http://www.righto.com/2013/11/how-hacker-news-ranking-really-works.html .
+%%
+%% This really just wraps the constants of the HN version in a call to the general version.
+%%
+%% It is not at all clear how penalties are stacked, so I just summed them.  Many will think that 
+%% wrong.
+
+hn_score(Votes, AgeInHours, Penalties) 
+
+    when is_list(Penalties) ->
+
+    hn_score(Votes, AgeInHours, lists:sum(Penalties));
+
+
+
+
+
+hn_score(Votes, AgeInHours, Penalty) ->
+
+    general_hn_score(Votes, AgeInHours, 1 - Penalty, -1, 2, 0.8, 1.8).
