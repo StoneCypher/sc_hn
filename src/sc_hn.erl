@@ -7,6 +7,8 @@
 
 -export([
 
+    general_hn_score/7,
+
     fake_stories/0,
       fake_stories/1,
 
@@ -70,10 +72,22 @@ fake_stories(Count) ->
 fake_story() ->
 
     #story {
-        sc:rand_between(-20,20) + sc:rand(20) + sc:rand(50),
-        sc:unixtime() - sc:rand(400000), % about 5 days
-        list_to_binary(don_martin:words()),
-        list_to_binary(don_martin:word()),
-        list_to_binary(don_martin:word() ++ don_martin:word() ++ sc:random_from([ ".com", ".net", ".org" ])),
-        sc:rand(50) + sc:rand(50) + sc:rand(50) + sc:rand(50)
+        points        = sc:rand_between(-20,20) + sc:rand(20) + sc:rand(50),
+        timestamp     = sc:unixtime() - sc:rand(400000), % about 5 days
+        title         = list_to_binary(don_martin:words()),
+        poster        = list_to_binary(don_martin:word()),
+        site          = list_to_binary(don_martin:word() ++ don_martin:word() ++ sc:random_from([ ".com", ".net", ".org" ])),
+        comment_count = sc:rand(50) + sc:rand(50) + sc:rand(50) + sc:rand(50)
     }.
+
+
+
+
+
+%% @doc Calculates one Hacker News style ranking entry with coefficients removed, for ordering by 
+%% age and score.  Follows the algorithm claimed in 
+%% http://www.righto.com/2013/11/how-hacker-news-ranking-really-works.html .
+
+general_hn_score(Votes, Age, Penalty, VoteOffset, AgeOffset, VoteDecay, Gravity) ->
+
+    (math:pow(Votes + VoteOffset, VoteDecay) / math:pow(Age + AgeOffset, Gravity)) * Penalty.
